@@ -3,3 +3,126 @@ c03
 
 
 https://portswigger.net/web-security/dom-based/dom-clobbering
+
+
+
+alt = (name.replace('.svg', '').replace('.png', '')) + " sharing button";
+    return "<img alt='" + alt + "' src='https://platform-cdn.sharethis.com/img/" + name + "' />";
+  };
+
+possible injection with php files
+
+
+https://coe22.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fcoe22.com%2Fgive%2F&format=xml
+
+
+https://my.coe22.com/ScriptResource.axd?d=nv7asgRUU0tRmHNR2D6t1NIKvYFAvMreuM0ecVQSphouJWExMnEH6GZNdVTkZyG1suErkV80TkLBLT3eEqepVfwib51fqfIddpiuXMD9sURmTsDTlvMzlL4AePFEXr5Cq9hb8Q2&t=7266186d
+
+
+
+https://my.coe22.com/ScriptResource.axd?d=nv7asgRUU0tRmHNR2D6t1NIKvYFAvMreuM0ecVQSphouJWExMnEH6GZNdVTkZyG1suErkV80TkLBLT3eEqepVfwib51fqfIddpiuXMD9sURmTsDTlvMzlL4AePFEXr5Cq9hb8Q2&t=7266186d
+
+
+
+
+crack this encryption 
+
+
+eqOQ1YGQ4wzm3SuriteciDI5FkgP7QxRwJkwOczTauP0AEHrTPzHyH3m9M08axJvK8xCECFwdtCmjzVUkCU/g94Xh4KspdxU+El+7EMYURkdWypPu0efNQG29SDVg68utBk5hATJChvVuU1UNWVZytf3z+6s2hxsjinejmjP2g/Xljp+bVvLD4j9YRGmxCtYY1P72wGNgA2hoB8VPO0/KBmMdoxem7PEs0n/J6g1U9OE5En9BZWSws50x2HqzwqNCaWAtlUOwsHg8lDSODtYlRmsty4TEWCXBVa7odxcN8t5Nv1lhmmuGe50a9aL1Hkwt8ngU7BpuPIpOcqMePKM+SZq0tVuATIY4x3emEiFreQsnso45aHeFWk1ogkmSVHG4eokOdKv2UYkD0UflI1jpvVrZ9IZ+0VSeYbWVSokiOBmjcr+tHimdgZHVmreBh/9dQbuyee+JVtyV8ir4q7LrfmJYc6NAbKyIG0hGJWojuMBl5B6lZNhfQkesTKA9SEP2B4yQ9Ys28bl6EUOkQsY08khODFzrCRGyx9juzgV/5u3rTLqCcrZjB+iX6ELzggsGcjOAijJjMmVl+90V+rgmb6m6606Sl07HP8VQPqD2eh2Mho6O3QeKKIbSboHmKHJoyvMK2s/LsrPs19BqNvuVgxXYBGVPBasVOX96jLgJe3cJXIrpv/VNMGgIVngfgKhvtq1nl4cVyt/f1qOZ03Kyb7qh4xcAcmd1ZLebEqB3K5ELNM8TJFZDzxbhpbLtN9BzY3tZw==
+
+---
+
+
+DOM Clobbering
+
+Referenced via PortSwigger: DOM Clobbering
+Can allow attackers to override DOM properties and hijack logic.
+
+
+
+Dynamic Image Injection
+
+Example: alt = (name.replace('.svg', '').replace('.png', '')) + " sharing button";
+Risk: If name is user-controlled, this could lead to XSS or broken image injection.
+
+
+
+Unvalidated External Requests
+
+Example: https://coe22.com/wp-json/oembed/1.0/embed?...
+Risk: SSRF or open redirect if not properly validated.
+
+
+
+ScriptResource.axd Encryption
+
+Example: https://my.coe22.com/ScriptResource.axd?...
+Contains encrypted payloads that could be reverse-engineered if not securely implemented.
+
+---
+
+ToolPurposeBurp SuiteManual and automated testing of web apps, including AJAX and DOM-based vulnerabilities.
+OWASP ZAPFree tool for scanning XSS, CSRF, and plugin vulnerabilities.NiktoScans for outdated plugins, misconfigurations, and known vulnerabilities.WPScanSpecifically for WordPress sites; detects vulnerable plugins and themes.Retire.jsScans JavaScript libraries for known vulnerabilities.
+DOM Invader (Burp Extension)Detects DOM-based XSS and clobbering issues.
+SnykMonitors dependencies and plugins for vulnerabilities.
+AcunetixComprehensive scanner for AJAX, XSS, SQLi, and more.
+
+
+try blind testing because (((
+
+
+Dynamic Error Display
+
+Errors are shown or hidden based on validation status:
+
+)))
+
+
+
+Even though the page has strong built-in protections, consider adding:
+
+
+Content Security Policy (CSP)
+
+To prevent XSS from third-party scripts or inline injections.
+
+
+
+Subresource Integrity (SRI)
+
+To ensure jQuery and other external scripts haven’t been tampered with.
+
+
+
+Rate Limiting & CAPTCHA
+
+To prevent abuse of AJAX endpoints and form submissions.
+
+
+
+Server-Side Validation
+
+Always validate inputs server-side even if client-side validation is present.
+
+
+
+
+https://securityheaders.com/?q=https%3A%2F%2Fmy.coe22.com%2Fpage&followRedirects=on
+
+(site got a D ranking on securityheaders.com {by snik})
+has csp (content security policy)
+and has X-frame-options
+lacks-
+strrict transport-security
+x-content-type-options
+referrer-policy
+permissions-policy
+
+
+
+Strict-Transport-Security	HTTP Strict Transport Security is an excellent feature to support on your site and strengthens your implementation of TLS by getting the User Agent to enforce the use of HTTPS. Recommended value "Strict-Transport-Security: max-age=31536000; includeSubDomains".
+X-Content-Type-Options	X-Content-Type-Options stops a browser from trying to MIME-sniff the content type and forces it to stick with the declared content-type. The only valid value for this header is "X-Content-Type-Options: nosniff".
+Referrer-Policy	Referrer Policy is a new header that allows a site to control how much information the browser includes with navigations away from a document and should be set by all sites.
+Permissions-Policy	Permissions Policy is a new header that allows a site to control which features and APIs can be used in the browser.
+
+
